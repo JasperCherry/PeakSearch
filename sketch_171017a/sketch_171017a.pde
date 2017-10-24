@@ -1,6 +1,6 @@
 PFont font; // font object
 // settings
-int peaks=15;
+int peaks=9;
 int maximumPeaks=899; // excluding the max peak
 int columns=30;
 int rows=30;
@@ -97,30 +97,98 @@ void algorithm() {
         if (fields[agentX][agentY]==9) {
           algRunning=false;
           algFinished=true;
+          System.out.println("Success!");
           System.out.println("Number of steps:"+stepsDone+" for 900 fields to check");
         }
-      }
+      } //--
 
       // snake algorithm
       if (currentAlg=="snake") {
         // pick up random move direction
         int move=floor(random(4));
-        
+
         // check if fields where checked before
         if (!repeatFields) {
+          // check if its in the bounds of the map
+          boolean inBounds=false;
+          boolean newField=false;
+          do {
+
+            // check if snake got stuck
+            if (
+              // check corner positions
+              agentX==0&&agentY==0&&checkedFields[agentX][agentY+1]&&checkedFields[agentX+1][agentY]
+              ||
+              agentX==0&&agentY==29&&checkedFields[agentX][agentY-1]&&checkedFields[agentX+1][agentY]
+              ||
+              agentX==29&&agentY==0&&checkedFields[agentX][agentY+1]&&checkedFields[agentX-1][agentY]
+              ||
+              agentX==29&&agentY==29&&checkedFields[agentX][agentY-1]&&checkedFields[agentX-1][agentY]
+              ||
+              // check edge positions
+              agentX==0&&checkedFields[agentX][agentY+1]&&checkedFields[agentX][agentY-1]&&checkedFields[agentX+1][agentY]
+              ||
+              agentX==29&&checkedFields[agentX][agentY+1]&&checkedFields[agentX][agentY-1]&&checkedFields[agentX-1][agentY]
+              ||
+              agentY==0&&checkedFields[agentX][agentY+1]&&checkedFields[agentX+1][agentY]&&checkedFields[agentX-1][agentY]
+              ||
+              agentY==29&&checkedFields[agentX][agentY-1]&&checkedFields[agentX+1][agentY]&&checkedFields[agentX-1][agentY]
+              ||
+              // check standard positions with 4 possible moves
+              agentX!=0&&agentX!=29&&agentY!=0&&agentY!=29&&
+              checkedFields[agentX][agentY+1]&&checkedFields[agentX][agentY-1]&&checkedFields[agentX+1][agentY]&&checkedFields[agentX-1][agentY]
+              ) { // if there is no possible move
+              algRunning=false;
+              algFinished=true;
+              System.out.println("Snake got stuck");
+              System.out.println("Number of steps:"+stepsDone+" for 900 fields to check");
+              break;
+            }
+
+            if (move==0&&agentX<1
+              ||
+              move==1&&agentX>28
+              ||
+              move==2&&agentY<1
+              ||
+              move==3&&agentY>28) {
+              inBounds=false;
+              move=floor(random(4));
+            } else {
+              inBounds=true;
+            }
+
+
+            if (agentX>1&&move==0&&checkedFields[agentX-1][agentY]
+              ||
+              agentX<29&&move==1&&checkedFields[agentX+1][agentY]
+              ||
+              agentY>1&&move==2&&checkedFields[agentX][agentY-1]
+              ||
+              agentY<29&&move==3&&checkedFields[agentX][agentY+1]) {
+              newField=false;
+              move=floor(random(4));
+            } else {
+              newField=true;
+            }
+          } while (!inBounds||!newField);
         } else {
           // check if its in the bounds of the map
-          while (
-            move==0&&agentX<1
-            ||
-            move==1&&agentX>28
-            ||
-            move==2&&agentY<1
-            ||
-            move==3&&agentY>28
-            ) {
-            move=floor(random(4));
-          }
+          boolean inBounds=false;
+          do {
+            if (move==0&&agentX<1
+              ||
+              move==1&&agentX>28
+              ||
+              move==2&&agentY<1
+              ||
+              move==3&&agentY>28) {
+              inBounds=false;
+              move=floor(random(4));
+            } else {
+              inBounds=true;
+            }
+          } while (!inBounds);
         }
 
         if (algRunning) {
@@ -144,198 +212,10 @@ void algorithm() {
         if (fields[agentX][agentY]==9) {
           algRunning=false;
           algFinished=true;
+          System.out.println("Success!");
           System.out.println("Number of steps:"+stepsDone+" for 900 fields to check");
         }
-      }
-    }
-  }
-}
-
-
-void mouseReleased() {
-
-  // start / stop button
-  if (
-    mouseX>620&&mouseX<740
-    &&mouseY>520&&mouseY<570
-    ) {
-    if (!algFinished) {
-      algRunning=!algRunning;
-    }
-    //System.out.print("Start/Stop button pressed");
-  }
-
-  // restart button
-  if (
-    mouseX>720&&mouseX<880
-    &&mouseY>520&&mouseY<570
-    ) {
-    clearState();
-    //System.out.print("Restart button pressed");
-  }
-
-  // change algorithm
-  if (
-    mouseX>620&&mouseX<870
-    &&mouseY>260&&mouseY<300
-    ) {
-    if (currentAlg=="random") {
-      currentAlg="snake";
-    } else if (currentAlg=="snake") {
-      currentAlg="up the hill";
-    } else if (currentAlg=="up the hill") {
-      currentAlg="random";
-    }
-    //System.out.print("Change button pressed");
-  }
-
-  // peaks value control
-  if (
-    mouseX>620&&mouseX<660
-    &&mouseY>160&&mouseY<200
-    ) {
-    if (minPeakValue>1) {
-      minPeakValue--;
-    }  
-    //System.out.print("Peaks value-- button pressed");
-  }
-  if (
-    mouseX>830&&mouseX<870
-    &&mouseY>160&&mouseY<200
-    ) {
-    if (minPeakValue<8) {
-      minPeakValue++;
-    }  
-    //System.out.print("Peaks value++ button pressed");
-  }
-
-  // peaks number control
-  if (
-    mouseX>620&&mouseX<660
-    &&mouseY>60&&mouseY<100
-    ) {
-    if (peaks>0) {
-      peaks--;
-    }
-    //System.out.print("Peaks number-- button pressed");
-  }
-  if (
-    mouseX>830&&mouseX<870
-    &&mouseY>60&&mouseY<100
-    ) {
-    if (peaks<99) {
-      peaks++;
-    }
-    //System.out.print("Peaks number++ button pressed");
-  }
-
-  // fields repetition
-  if (
-    mouseX>620&&mouseX<870
-    &&mouseY>310&&mouseY<350
-    ) {
-    repeatFields=!repeatFields;
-    //System.out.print("Repeat fields button pressed");
-  }
-
-  //speed control
-  if (
-    mouseX>620&&mouseX<660
-    &&mouseY>410&&mouseY<450
-    ) {
-    if (delay>1) {
-      delay--;
-    }
-    //System.out.print("Speed-- button pressed");
-  }
-  if (
-    mouseX>830&&mouseX<870
-    &&mouseY>410&&mouseY<450
-    ) {
-    if (delay<100) {
-      delay++;
-    }
-    //System.out.print("Speed-- button pressed");
-  }
-}
-
-
-void clearState() {
-
-  algFinished=false;
-  agentX=floor(random(30));
-  agentY=floor(random(30));
-
-  // assign initian value to mark all fields empty and not visited
-  for (int x=0; x<columns; x++) {
-    for (int y=0; y<rows; y++) {
-      setPeaks[x][y]=false;
-      checkedFields[x][y]=false;
-    }
-  }
-
-  // assign initian value to all fields
-  for (int x=0; x<columns; x++) {
-    for (int y=0; y<rows; y++) {
-      fields[x][y]=0;
-    }
-  }
-
-  // set up target peak
-  int maxX=floor(random(30));
-  int maxY=floor(random(30));
-  fields[maxX][maxY]=9;
-  setPeaks[maxX][maxY]=true;
-
-  // set number of random peaks of values 1-8
-  for (int x=0; x<peaks; x++) {
-    int posX, posY, value;
-    do {
-      posX=floor(random(30));
-      posY=floor(random(30));
-      value=round(random(minPeakValue, maxPeakValue));
-    } while (setPeaks[posX][posY]==true);
-    fields[posX][posY]=value;
-    setPeaks[posX][posY]=true;
-  }
-
-  // assign values other fields then peaks
-  for (int x=0; x<columns; x++) {
-    for (int y=0; y<rows; y++) {
-      // if any value other then 0 was found
-      if (fields[x][y]!=0) {
-        if (x>0&&fields[x-1][y]<fields[x][y]-1) {
-          fields[x-1][y]=fields[x][y]-1;
-        }
-        if (x<29&&fields[x+1][y]<fields[x][y]-1) {
-          fields[x+1][y]=fields[x][y]-1;
-        }
-        if (y>0&&fields[x][y-1]<fields[x][y]-1) {
-          fields[x][y-1]=fields[x][y]-1;
-        }
-        if (y<29&&fields[x][y+1]<fields[x][y]-1) {
-          fields[x][y+1]=fields[x][y]-1;
-        }
-      }
-    }
-  }
-  for (int x=columns-1; x>-1; x--) {
-    for (int y=rows-1; y>-1; y--) {
-      // if any value other then 0 was found
-      if (fields[x][y]!=0) {
-        if (x>0&&fields[x-1][y]<fields[x][y]-1) {
-          fields[x-1][y]=fields[x][y]-1;
-        }
-        if (x<29&&fields[x+1][y]<fields[x][y]-1) {
-          fields[x+1][y]=fields[x][y]-1;
-        }
-        if (y>0&&fields[x][y-1]<fields[x][y]-1) {
-          fields[x][y-1]=fields[x][y]-1;
-        }
-        if (y<29&&fields[x][y+1]<fields[x][y]-1) {
-          fields[x][y+1]=fields[x][y]-1;
-        }
-      }
+      }//--
     }
   }
 }
