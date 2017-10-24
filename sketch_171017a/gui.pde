@@ -25,7 +25,7 @@ void gui() {
   text("MINIMUM PEAK VALUE:", 620+12, 110+28);
   textFont(font, 30);
   text("-", 620+15, 160+29);
-  text("0", 725+12, 160+32);
+  text(minPeakValue, 725+12, 160+32);
   text("+", 830+12, 160+32);
 
   // controls for type of algorithm
@@ -57,13 +57,6 @@ void gui() {
   text("-", 620+15, 410+29);
   text(delay, 725+4, 410+32);
   text("+", 830+12, 410+32);
-
-  // update map and alghoritm
-  fill(150);
-  rect(620, 470, 250, 40);
-  fill(0);
-  textFont(font, 20);
-  text("UPDATE OPTIONS", 620+12, 470+28);
   
   // start/stop algorithm
   fill(150);
