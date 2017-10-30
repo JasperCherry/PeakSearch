@@ -13,7 +13,7 @@ void mouseReleased() {
 
   // restart button
   if (
-    mouseX>720&&mouseX<880
+    mouseX>760&&mouseX<880
     &&mouseY>520&&mouseY<570
     ) {
     clearState();
