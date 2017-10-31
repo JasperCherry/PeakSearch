@@ -36,14 +36,14 @@ void gui() {
   textFont(font, 20);
   text("ALGORITHM:", 620+12, 210+28);
   text(currentAlg, 620+12, 260+28);
-  
+
   // repeating fields
   fill(150);
   rect(620, 310, 250, 40);
   fill(0);
   textFont(font, 20);
   text("repeat fields: "+repeatFields, 620+12, 310+28);
-  
+
   // controls for speed
   fill(150);
   rect(620, 360, 250, 40);
@@ -57,23 +57,36 @@ void gui() {
   text("-", 620+15, 410+29);
   text(delay, 725+4, 410+32);
   text("+", 830+12, 410+32);
-  
+
+  // controls for tests
+  fill(150);
+  rect(620, 460, 250, 40);
+  rect(620, 510, 40, 20);
+  rect(725, 510, 40, 20);
+  rect(830, 510, 40, 20);
+  fill(0);
+  textFont(font, 20);
+  text("Test", 620+12, 460+28);
+  textFont(font, 13);
+  text("-", 620+18, 510+15);
+  text(testNumber, 725+2, 510+15);
+  text("+", 830+16, 510+15);
+
   // start/stop algorithm
   fill(150);
-  rect(620, 520, 120, 50);
+  rect(620, 540, 120, 50);
   fill(0);
   textFont(font, 26);
-  if(!algRunning){
-    text("START", 620+20, 520+35);
-  }else{
-    text("STOP", 620+20, 520+35);
+  if (!algRunning) {
+    text("START", 620+20, 540+35);
+  } else {
+    text("STOP", 620+20, 540+35);
   }
-  
+
   // restart algorithm
   fill(150);
-  rect(760, 520, 120, 50);
+  rect(760, 540, 120, 50);
   fill(0);
   textFont(font, 26);
-  text("RESTART", 760+1, 520+35);
-  
+  text("RESTART", 760+1, 540+35);
 }

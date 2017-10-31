@@ -3,7 +3,7 @@ void mouseReleased() {
   // start / stop button
   if (
     mouseX>620&&mouseX<740
-    &&mouseY>520&&mouseY<570
+    &&mouseY>540&&mouseY<590
     ) {
     if (!algFinished) {
       algRunning=!algRunning;
@@ -14,7 +14,7 @@ void mouseReleased() {
   // restart button
   if (
     mouseX>760&&mouseX<880
-    &&mouseY>520&&mouseY<570
+    &&mouseY>540&&mouseY<590
     ) {
     clearState();
     //System.out.print("Restart button pressed");
@@ -69,7 +69,7 @@ void mouseReleased() {
     mouseX>830&&mouseX<870
     &&mouseY>60&&mouseY<100
     ) {
-    if (peaks<99) {
+    if (peaks<98) {
       peaks++;
     }
     //System.out.print("Peaks number++ button pressed");
@@ -102,5 +102,44 @@ void mouseReleased() {
       delay++;
     }
     //System.out.print("Speed-- button pressed");
+  }
+
+  // tests control
+  if (
+    mouseX>620&&mouseX<660
+    &&mouseY>510&&mouseY<530
+    ) {
+    if (testNumber>1000) {
+      testNumber-=1000;
+    } else if (testNumber>100) {
+      testNumber-=100;
+    } else if (testNumber>10) {
+      testNumber-=10;
+    } else if (testNumber>1) {
+      testNumber-=1;
+    }
+  }
+  //System.out.print("Tests-- button pressed");
+  if (
+    mouseX>830&&mouseX<870
+    &&mouseY>510&&mouseY<530
+    ) {
+    if (testNumber<10) {
+      testNumber+=1;
+    } else if (testNumber<100) {
+      testNumber+=10;
+    } else if (testNumber<1000) {
+      testNumber+=100;
+    } else if (testNumber<10000) {
+      testNumber+=1000;
+    }
+    //System.out.print("Tests++ button pressed");
+  }
+  // test button
+  if (
+    mouseX>620&&mouseX<870
+    &&mouseY>460&&mouseY<500
+    ) {
+    test();
   }
 }
