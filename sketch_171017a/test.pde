@@ -401,17 +401,17 @@ void test() {
   // statistics
   System.out.println("<><><><><><><><><><><><><><>");
   if (currentAlg=="random") {
-    System.out.println("Average number of steps on successful searches: "+allSteps/testNumber);
-    System.out.println("Standard deviation :"+devFinal);
+    System.out.println("Average number of steps on successful search: "+allSteps/testNumber);
+    System.out.println("Standard deviation on successful search: "+devFinal);
   }
   if (currentAlg=="snake") {
-    System.out.println("Average number of steps on successful searches: "+allSteps/testNumber);
-    System.out.println("Standard deviation :"+devFinal);
+    System.out.println("Average number of steps on successful search: "+allSteps/(testNumber-snakeStuck));
+    System.out.println("Standard deviation on successful search: "+devFinal);
     System.out.println("Snake was stuck "+snakeStuck+" while starting "+testNumber);
   }
   if (currentAlg=="up the hill") {
-    System.out.println("Average number of steps on successful searches: "+allSteps/testNumber);
-    System.out.println("Standard deviation :"+devFinal);
+    System.out.println("Average number of steps on successful search: "+allSteps/(testNumber-hillStuck));
+    System.out.println("Standard deviation on successful search: "+devFinal);
     System.out.println("Up the hill was stuck "+hillStuck+" while starting "+testNumber);
   }
 }
