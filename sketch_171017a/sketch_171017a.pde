@@ -1,3 +1,7 @@
+/*
+Author : Kacper Wisnicki
+kwisn001
+*/
 PFont font; // font object
 // settings
 int peaks=9;
